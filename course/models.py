@@ -7,4 +7,4 @@ class Course(models.Model):
     courseSemester = models.IntegerField()
     courseYear = models.IntegerField()
     courseChair = models.IntegerField()
-    courseQuotaStatus = models.BooleanField(default=False)
+    isQoutaAvaliable = models.BooleanField(default=False)
