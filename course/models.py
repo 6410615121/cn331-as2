@@ -7,4 +7,7 @@ class Course(models.Model):
     courseSemester = models.IntegerField()
     courseYear = models.IntegerField()
     courseChair = models.IntegerField()
-    isQoutaAvaliable = models.BooleanField(default=False)
+    isQuotaAvaliable = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.courseNo + ': ' + self.courseName
