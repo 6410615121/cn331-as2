@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Course(models.Model):
-    courseNo = models.CharField(max_length=10)
+    courseID = models.CharField(max_length=10, primary_key=True)
     courseName = models.CharField(max_length=64)
     courseSemester = models.IntegerField()
     courseYear = models.IntegerField()
@@ -10,4 +10,4 @@ class Course(models.Model):
     isQuotaAvaliable = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.courseNo + ': ' + self.courseName
+        return self.courseID + ': ' + self.courseName
