@@ -8,17 +8,17 @@ class Course(models.Model):
     courseYear = models.IntegerField()
     courseChair = models.IntegerField(default=0)
 
-    availableChairs = models.IntegerField(default = 0)
+    availableChairs = models.IntegerField(default=0, editable=False)
     allowQuota_whenAvailable = models.BooleanField(default=False)
     quotaRecieveing_Status = models.BooleanField(default=False ,editable=False)
 
     def save(self):
-        if not self.pk: 
+        if self._state.adding: 
             self.availableChairs = self.courseChair
-        return super.save()
+        super().save()
     
     def __str__(self):
-        return self.courseID + ': ' + self.courseName
+        return f"{self.courseID}: {self.courseName} : {self.availableChairs}"
     
 class QuotaRequest(models.Model):
     requestID = models.CharField(max_length=10, primary_key=True)
@@ -35,16 +35,16 @@ class Enrollment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def save(self): #new enrollment
-        if not self.pk:
+        if self._state.adding:
             self.course.availableChairs -= 1
 
         if (self.availableChairs > 0) and (self.allowQuota_whenAvailable):
             self.course.quotaRecieveing_Status = True
-        return super.save(self)
+        super().save()
     
     def delete(self): #new enrollment
         self.course.availableChairs += 1
-        return super.delete(self)
+        super().delete()
     
 
     def __str__(self):
