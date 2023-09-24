@@ -17,20 +17,20 @@ class Course(models.Model):
     def enrolled_students_list(self):
         return ', '.join([enrollment.student.name for enrollment in self.enrollments.all()])
 
-    def save(self):
+    def save(self,*args, **kwargs):
         self.availableChairs = self.courseChair
         if (self.availableChairs > 0) and (self.allowQuota_whenAvailable):
             self.quotaRecieveing_Status = True
         else:
             self.quotaRecieveing_Status = False
-        super().save()
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f"{self.courseID}: {self.courseName}"
     
 
 class QuotaRequest(models.Model):
-    requestID = models.UUIDField(max_length=10, primary_key=True, default=uuid.uuid4)
+    requestID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     approved = models.BooleanField(default=False)
@@ -49,31 +49,32 @@ class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='enrollments')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments')
 
-    def save(self): #new enrollment
+    def save(self, *args, **kwargs):
         if self._state.adding:
             self.course.availableChairs -= 1
 
-        if (self.course.availableChairs > 0) and (self.course.allowQuota_whenAvailable):
-            self.course.quotaRecieveing_Status = True
-        else:
-            self.quotaRecieveing_Status = False
+            if (self.course.availableChairs > 0) and (self.course.allowQuota_whenAvailable):
+                self.course.quotaRecieveing_Status = True
+            else:
+                self.course.quotaRecieveing_Status = False
 
-        self.course.save()
-        super().save()
-    
-    def delete(self):
+            self.course.save()  # Save the related Course object here, not with *args, **kwargs
+
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
         self.course.availableChairs += 1
-        
+
         if (self.course.availableChairs > 0) and (self.course.allowQuota_whenAvailable):
             self.course.quotaRecieveing_Status = True
         else:
-            self.quotaRecieveing_Status = False
-        self.course.save()
+            self.course.quotaRecieveing_Status = False
 
-        super().delete()
-        
-    
+        self.course.save()  # Save the related Course object here, not with *args, **kwargs
+
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return f"{self.student.name} enrolled in {self.course.courseID}"
+
     

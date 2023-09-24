@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 from .models import Course, Enrollment, QuotaRequest
+from users.models import Student
 
 # Register your models here.
 class CourseAdmin(admin.ModelAdmin):
@@ -25,7 +26,12 @@ class QuotaRequestAdmin(admin.ModelAdmin):
 
     def approve_requests(self, request, queryset):
         queryset.update(approved=True)
-        self.message_user(request, f'Selected quota requests approved.')
+
+        for obj in queryset:
+            student = obj.student
+            course = obj.course
+            Enrollment.objects.create(student=student, course=course)
+    
 
     def reject_requests(self, request, queryset):
         queryset.update(approved=False)
