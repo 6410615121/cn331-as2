@@ -21,6 +21,8 @@ class Course(models.Model):
         self.availableChairs = self.courseChair
         if (self.availableChairs > 0) and (self.allowQuota_whenAvailable):
             self.quotaRecieveing_Status = True
+        else:
+            self.quotaRecieveing_Status = False
         super().save()
     
     def __str__(self):
@@ -53,6 +55,8 @@ class Enrollment(models.Model):
 
         if (self.course.availableChairs > 0) and (self.course.allowQuota_whenAvailable):
             self.course.quotaRecieveing_Status = True
+        else:
+            self.quotaRecieveing_Status = False
 
         self.course.save()
         super().save()
@@ -62,6 +66,8 @@ class Enrollment(models.Model):
         
         if (self.course.availableChairs > 0) and (self.course.allowQuota_whenAvailable):
             self.course.quotaRecieveing_Status = True
+        else:
+            self.quotaRecieveing_Status = False
         self.course.save()
 
         super().delete()

@@ -28,7 +28,7 @@ def quota_request(request, courseID):
         return HttpResponseRedirect(reverse('login'))
     
     course = Course.objects.get(pk=courseID)
-    student = Student.objects.get(id=request.user)
+    student = Student.objects.get(pk=request.user)
     
     # Check if a request already exists for the student and course
     existing_request = QuotaRequest.objects.filter(course=course, student=student)

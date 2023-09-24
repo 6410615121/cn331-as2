@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Student(models.Model):
-    id = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
+    id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=50)
 
     #quotaRequested = models.ManyToManyField("course.Course", related_name='quotaRequest')
