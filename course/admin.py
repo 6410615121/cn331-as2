@@ -1,10 +1,21 @@
+from typing import Any
 from django.contrib import admin
+from django.db.models.query import QuerySet
+from django.http.request import HttpRequest
 from .models import Course, Enrollment, QuotaRequest
 
 # Register your models here.
 
 admin.site.register(Course)
-admin.site.register(Enrollment)
+
+class EnrollAdmin(admin.ModelAdmin):
+    actions = ['withdraw',]
+
+    def withdraw(self, queryset):
+        for obj in queryset:
+            obj.delete()
+        
+admin.site.register(Enrollment, EnrollAdmin)
 
 
 class QuotaRequestAdmin(admin.ModelAdmin):

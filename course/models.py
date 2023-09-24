@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import Student
+
 # Create your models here.
 class Course(models.Model):
     courseID = models.CharField(max_length=10, primary_key=True)
@@ -8,7 +9,7 @@ class Course(models.Model):
     courseYear = models.IntegerField()
     courseChair = models.IntegerField(default=0)
 
-    availableChairs = models.IntegerField(default=0, editable=False)
+    availableChairs = models.IntegerField(default=0, editable=True)
     allowQuota_whenAvailable = models.BooleanField(default=False)
     quotaRecieveing_Status = models.BooleanField(default=False ,editable=False)
 
@@ -38,13 +39,18 @@ class Enrollment(models.Model):
         if self._state.adding:
             self.course.availableChairs -= 1
 
-        if (self.availableChairs > 0) and (self.allowQuota_whenAvailable):
+        if (self.course.availableChairs > 0) and (self.course.allowQuota_whenAvailable):
             self.course.quotaRecieveing_Status = True
+
+        self.course.save()
         super().save()
     
-    def delete(self): #new enrollment
+    def delete(self,*args, **kwargs):
         self.course.availableChairs += 1
-        super().delete()
+        self.course.save(*args, **kwargs)
+
+        super(Enrollment, self).delete(*args, **kwargs)
+        
     
 
     def __str__(self):
