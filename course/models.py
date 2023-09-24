@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import Student
+import uuid
 
 # Create your models here.
 class Course(models.Model):
@@ -11,14 +12,15 @@ class Course(models.Model):
 
     availableChairs = models.IntegerField(default=0, editable=False)
     allowQuota_whenAvailable = models.BooleanField(default=False)
-    quotaRecieveing_Status = models.BooleanField(default=False ,editable=False)
+    quotaRecieveing_Status = models.BooleanField(default=True ,editable=False)
 
     def enrolled_students_list(self):
         return ', '.join([enrollment.student.name for enrollment in self.enrollments.all()])
 
     def save(self):
-        if self._state.adding: 
-            self.availableChairs = self.courseChair
+        self.availableChairs = self.courseChair
+        if (self.availableChairs > 0) and (self.allowQuota_whenAvailable):
+            self.quotaRecieveing_Status = True
         super().save()
     
     def __str__(self):
@@ -26,7 +28,7 @@ class Course(models.Model):
     
 
 class QuotaRequest(models.Model):
-    requestID = models.CharField(max_length=10, primary_key=True)
+    requestID = models.UUIDField(max_length=10, primary_key=True, default=uuid.uuid4)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     approved = models.BooleanField(default=False)
@@ -57,6 +59,9 @@ class Enrollment(models.Model):
     
     def delete(self):
         self.course.availableChairs += 1
+        
+        if (self.course.availableChairs > 0) and (self.course.allowQuota_whenAvailable):
+            self.course.quotaRecieveing_Status = True
         self.course.save()
 
         super().delete()

@@ -13,5 +13,12 @@
     <h1>Chair: {{CourseChair}}</h1>
     <h1>Available Chair: {{CourseChair}}</h1>
     <h1>Quota status: {% if quotaAvailable %}open{% else %}closed{% endif %}</h1>
+    {% if quotaAvailable %}
+    <form method="post" action="{% url 'request_quota' CourseID %}">
+        {% csrf_token %}
+        <input type="submit" value="Request Quota" class="btn btn-primary">
+    </form>
+    {% endif %}
+    
 </body>
 </html>
