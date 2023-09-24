@@ -11,7 +11,7 @@ admin.site.register(Course)
 class EnrollAdmin(admin.ModelAdmin):
     actions = ['withdraw',]
 
-    def withdraw(self, queryset):
+    def withdraw(self, request, queryset):
         for obj in queryset:
             obj.delete()
         

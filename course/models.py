@@ -45,11 +45,11 @@ class Enrollment(models.Model):
         self.course.save()
         super().save()
     
-    def delete(self,*args, **kwargs):
+    def delete(self):
         self.course.availableChairs += 1
-        self.course.save(*args, **kwargs)
+        self.course.save()
 
-        super(Enrollment, self).delete(*args, **kwargs)
+        super().delete()
         
     
 
