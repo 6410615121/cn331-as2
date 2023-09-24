@@ -5,7 +5,7 @@
     <li>Username: {{request.user.username}}</li>
     <li>Email: {{request.user.email}}</li>
 </ul>
-
-<a href="{% url 'logout' %}">Logout</a>
+<a href="{% url 'course_list' %}" class="btn btn-primary">Register</a>
+<a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
 
 {% endblock  %}
