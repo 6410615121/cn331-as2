@@ -5,8 +5,10 @@ from django.http.request import HttpRequest
 from .models import Course, Enrollment, QuotaRequest
 
 # Register your models here.
-
-admin.site.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ['courseID', 'courseName', 'enrolled_students_list',]
+    
+admin.site.register(Course, CourseAdmin)
 
 class EnrollAdmin(admin.ModelAdmin):
     actions = ['withdraw',]
@@ -30,6 +32,7 @@ class QuotaRequestAdmin(admin.ModelAdmin):
         self.message_user(request, f'Selected quota requests rejected.')
 
 admin.site.register(QuotaRequest, QuotaRequestAdmin)
+
 
 
 

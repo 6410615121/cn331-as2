@@ -9,9 +9,12 @@ class Course(models.Model):
     courseYear = models.IntegerField()
     courseChair = models.IntegerField(default=0)
 
-    availableChairs = models.IntegerField(default=0, editable=True)
+    availableChairs = models.IntegerField(default=0, editable=False)
     allowQuota_whenAvailable = models.BooleanField(default=False)
     quotaRecieveing_Status = models.BooleanField(default=False ,editable=False)
+
+    def enrolled_students_list(self):
+        return ', '.join([enrollment.student.name for enrollment in self.enrollments.all()])
 
     def save(self):
         if self._state.adding: 
@@ -19,8 +22,9 @@ class Course(models.Model):
         super().save()
     
     def __str__(self):
-        return f"{self.courseID}: {self.courseName} : {self.availableChairs}"
+        return f"{self.courseID}: {self.courseName}"
     
+
 class QuotaRequest(models.Model):
     requestID = models.CharField(max_length=10, primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -29,11 +33,17 @@ class QuotaRequest(models.Model):
 
     def __str__(self):
         return self.student.name + ': ' + self.course.courseID
+    
+#class Quota(models.Model):
+ #   course = models.ForeignKey(Course, on_delete=models.CASCADE)
+#    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+#    QuotaRequest = models.ForeignKey(QuotaRequest, on_delete=models.CASCADE)
 
+    
 
 class Enrollment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='enrollments')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments')
 
     def save(self): #new enrollment
         if self._state.adding:
@@ -55,4 +65,4 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.student.name} enrolled in {self.course.courseID}"
-
+    

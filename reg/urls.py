@@ -22,5 +22,6 @@ from users.views import login_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('/users/login')),
-    path('users/', include('users.urls'))
+    path('users/', include('users.urls')),
+    path('course/', include('course.urls')),
 ]
