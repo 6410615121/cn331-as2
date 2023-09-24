@@ -14,11 +14,21 @@ class Course(models.Model):
 
     def save(self):
         if not self.pk: 
-            availableChairs = self.courseChair
+            self.availableChairs = self.courseChair
         return super.save()
     
     def __str__(self):
         return self.courseID + ': ' + self.courseName
+    
+class QuotaRequest(models.Model):
+    requestID = models.CharField(max_length=10, primary_key=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.student.name + ': ' + self.course.courseID
+
 
 class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
