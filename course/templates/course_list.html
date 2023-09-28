@@ -6,11 +6,60 @@
     <title>Course List</title>
 </head>
 <body>
-    <h1>All courses</h1>
-    <ul>
+    <h1>Course</h1>
+    
+    <input type="text" id="searchIdInput" placeholder="Search by Course ID">
+    <input type="text" id="searchSemesterInput" placeholder="Search by Semester">
+
+    <ul id="courseList" style="display: none;">
         {% for course in Courses %}
-            <li><a href="{% url 'course_detail' course.pk %}">{{ course.courseID }}</a></li>
+            <li data-course-id="{{ course.courseID }}" data-course-semester="{{ course.courseSemester }}">
+                <a href="{% url 'course_detail' course.pk %}">
+                    {{ course.courseID }} - {{ course.courseName }} (Semester: {{ course.courseSemester }})
+                </a>
+            </li>
         {% endfor %}
     </ul>
+
+    <script>
+        // Get the input fields and course list
+        var idInput = document.getElementById("searchIdInput");
+        var semesterInput = document.getElementById("searchSemesterInput");
+        var courseList = document.getElementById("courseList");
+        var courses = courseList.getElementsByTagName("li");
+
+        // Add event listeners for keyup events on the input fields
+        idInput.addEventListener("keyup", filterCourses);
+        semesterInput.addEventListener("keyup", filterCourses);
+
+        function filterCourses() {
+            var idFilter = idInput.value.toLowerCase();
+            var semesterFilter = semesterInput.value.toLowerCase();
+
+            for (var i = 0; i < courses.length; i++) {
+                var course = courses[i];
+                var courseId = course.getAttribute("data-course-id");
+                var courseSemester = course.getAttribute("data-course-semester");
+                var courseLink = course.getElementsByTagName("a")[0];
+                var courseText = courseLink.textContent || courseLink.innerText;
+
+                var idMatch = courseId.toLowerCase().indexOf(idFilter) > -1;
+                var semesterMatch = courseSemester.toLowerCase().indexOf(semesterFilter) > -1;
+
+                if ((idFilter === "" || idMatch) && (semesterFilter === "" || semesterMatch)) {
+                    course.style.display = "";
+                } else {
+                    course.style.display = "none";
+                }
+            }
+
+            // Show the course list if either input has content
+            if (idFilter !== "" || semesterFilter !== "") {
+                courseList.style.display = "block";
+            } else {
+                courseList.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

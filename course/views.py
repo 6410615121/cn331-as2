@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Course, QuotaRequest
+from .models import Course, Quota_accepeted, QuotaRequest ,Quota_rejected
 from users.models import Student
-
 # Create your views here.
+
 def course_list(request): #show all course, status
     courses  = Course.objects.all()
     context = {'Courses': courses}
@@ -26,19 +26,19 @@ def course_detail(request, courseID):
 def quota_request(request, courseID):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('login'))
-    
     course = Course.objects.get(pk=courseID)
     student = Student.objects.get(pk=request.user)
     
     # Check if a request already exists for the student and course
-    existing_request = QuotaRequest.objects.filter(course=course, student=student)
-
-    if existing_request:
+    #existing_request = QuotaRequest.objects.filter(course=course, student=student)
+    Quotaacc  = Quota_accepeted.objects.filter(student=request.user.student)
+    Quotarej  = Quota_rejected.objects.filter(student=request.user.student)
+    QuotaReq =  QuotaRequest.objects.filter(student=request.user.student)
+    if Quotaacc or  Quotarej or QuotaReq:
         # A request already exists, handle the error (e.g., display a message)
         return render(request, 'quota_request_error.html')
     
-    quotaObj = QuotaRequest.objects.create(course=course, student=student)
+    quotaObj = QuotaRequest.objects.create(course=course, student=student )
+   
     return render(request, 'quota_request_success.html')
-
-    
 
