@@ -1,11 +1,15 @@
 {% extends 'users/layout.html' %}
 {% block body %}
-<h1>Welcome, {{ request.user.username}}</h1>
+<h1>Welcome, {{ request.user.username }}</h1>
 <ul>
-    <li>Username: {{request.user.username}}</li>
-    <li>Email: {{request.user.email}}</li>
+    <li>Username: {{ request.user.username }}</li>
+    <li>Email: {{ request.user.email }}</li>
+    {% for course in quotaAccepted %}
+     <li>{{ course.course.courseID }} {{ course.student.name }}</li>
+    {% endfor %}
 </ul>
+
 <a href="{% url 'course_list' %}" class="btn btn-primary">Register</a>
 <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
 
-{% endblock  %}
+{% endblock %}
