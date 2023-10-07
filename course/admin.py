@@ -41,6 +41,8 @@ class QuotaRequestAdmin(admin.ModelAdmin):
             Quota_rejected.objects.create(student=student, course=course)
             obj.delete()
         self.message_user(request, f'Selected quota requests rejected.')
+    
+    
 
 admin.site.register(QuotaRequest, QuotaRequestAdmin)
 class Quota_rejectedAdmin(admin.ModelAdmin):

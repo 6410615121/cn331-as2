@@ -1,0 +1,54 @@
+/* Apply styles to the table */
+.course-table {
+    border-collapse: collapse;
+    margin: 0px 0;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 1000px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+/* Style the table header */
+.course-table th {
+    background-color: #c0c0c0;
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+/* Style the table rows */
+.course-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+.course-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    font-size: 14px;
+}
+
+.course-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+
+/* Alternate row background color for better readability */
+.course-table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.header-tablecourse {
+    
+    
+    text-align: center;
+    
+    
+  
+  }

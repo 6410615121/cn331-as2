@@ -1,15 +1,48 @@
-{% extends 'users/layout.html' %}
-{% block body %}
-<h1>Welcome, {{ request.user.username }}</h1>
-<ul>
-    <li>Username: {{ request.user.username }}</li>
-    <li>Email: {{ request.user.email }}</li>
-    {% for course in quotaAccepted %}
-     <li>{{ course.course.courseID }} {{ course.student.name }}</li>
-    {% endfor %}
-</ul>
+{% load static %}
 
-<a href="{% url 'course_list' %}" class="btn btn-primary">Register</a>
-<a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
-
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  href="{% static 'css\users.css' %}">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>Users</title>
+</head>
+<body>
+    <!------ Include the above in your HEAD tag ---------->
+    
+    <div id="wrapper" class="active">  
+        <!-- Sidebar -->
+                <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+               <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+              <li><a href="{% url 'index' %}">Profile<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+              <li><a href="{% url 'quota_status' %}">Course<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+              <li><a href="{% url 'course_list' %}">Register<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+              <li><a href="{% url 'logout' %}">Logout<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+            </ul>
+          </div>
+              
+          <!-- Page content -->
+          <br><br>
+          
+          <div id="page-content-wrapper" class = "user-style">
+            <img src="\static\images\img-02.png" alt="IMG">
+            <br><br>
+            <div class="user-info">
+              <h2>User ID: {{ request.user.username }}</h2>
+              <h2>Username: {{ request.user.student.name }}</h2>
+              <h2>Email: {{ request.user.email }}</h2>
+          </div>
+        </div>
+        
+    </div>
+  
+</body>
+</html>

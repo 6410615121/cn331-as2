@@ -1,0 +1,148 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  href="{% static 'css\users.css' %}">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css\stylelist.css' %}">
+    <title>Course</title>
+</head>
+<body>
+    <!------ Include the above in your HEAD tag ---------->
+    
+    <div id="wrapper" class="active">  
+        <!-- Sidebar -->
+                <!-- Sidebar -->
+        <div id="sidebar-wrapper" >
+            <ul id="sidebar_menu" class="sidebar-nav">
+               <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar" >
+              <li><a href="{% url 'index' %}">Profile<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+              <li><a href="{% url 'quota_status' %}">Course<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+              <li><a href="{% url 'course_list' %}">Register<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+              <li><a href="{% url 'logout' %}">Logout<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+            </ul>
+        </div>
+        <div id="page-content-wrapper">
+            <div  id="courseList" class="styled-list" >
+                <br><br>
+                <div class ="header-tablecourse">
+                    <h1>Accepted Quota</h1>
+                </div>
+
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Course ID</th>
+                            <th>Course Name</th>
+                            <th>Year</th>
+                            <th>Semester</th>
+                            <th>Withdraw</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseList">
+                        {% for course in quotaAccepted %}
+                            <tr>
+                                <td>{{ course.course.courseID }}</td>
+                                <td>{{ course.course.courseName }}</td>
+                                <td>{{ course.course.courseYear }}</td>
+                                <td>{{ course.course.courseSemester }}</td>
+                                <td>{% if course.course.withdraw_status %}
+                                    <form method="post" action="{% url 'quota_withdraw' course.course.courseID %}">
+                                        {% csrf_token %}
+                                        <input type="submit" value="withdraw" class="btn btn-primary">
+                                    </form>
+                                    {% else %}
+                                    <p style="color: red;">Closed</p>
+                                    {% endif %}
+                                </td>
+                            
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br><br>
+                <div class ="header-tablecourse">
+                    <h1>Quota Waiting</h1>
+                </div>
+
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Course ID</th>
+                            <th>Course Name</th>
+                            <th>Year</th>
+                            <th>Semester</th>
+                            <th>Withdraw</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseList">
+                        {% for course in quotaRequest %}
+                            <tr>
+                                <td>{{ course.course.courseID }}</td>
+                                <td>{{ course.course.courseName }}</td>
+                                <td>{{ course.course.courseYear }}</td>
+                                <td>{{ course.course.courseSemester }}</td>
+                                <td>{% if course.course.withdraw_status %}
+                                    <form method="post" action="{% url 'quota_withdraw' course.course.courseID %}">
+                                        {% csrf_token %}
+                                        <input type="submit" value="withdraw" class="btn btn-primary">
+                                    </form>
+                                    {% else %}
+                                    <p style="color: red;">Closed</p>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br><br>
+                <div class ="header-tablecourse">
+                    <h1>Rejected Quota</h1>
+                </div>
+
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Course ID</th>
+                            <th>Course Name</th>
+                            <th>Year</th>
+                            <th>Semester</th>
+                            <th>Withdraw</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseList">
+                        {% for course in quotaRejected %}
+                            <tr>
+                                <td>{{ course.course.courseID }}</td>
+                                <td>{{ course.course.courseName }}</td>
+                                <td>{{ course.course.courseYear }}</td>
+                                <td>{{ course.course.courseSemester }}</td>
+                                <td>{% if course.course.withdraw_status %}
+                                    <form method="post" action="{% url 'quota_withdraw' course.course.courseID %}">
+                                        {% csrf_token %}
+                                        <input type="submit" value="withdraw" class="btn btn-primary">
+                                    </form>
+                                    {% else %}
+                                    <p style="color: red;">Closed</p>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            
+
+            </div>
+        </div>
+    </div>
+  
+</body>
+</html>

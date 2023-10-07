@@ -15,8 +15,8 @@ class Course(models.Model):
     allowQuota_whenAvailable = models.BooleanField(default=False)
     quotaRecieveing_Status = models.BooleanField(default=True ,editable=False)
     student_info = models.JSONField(default=dict,blank=True)
-    #def enrolled_students_list(self):
-    #    return ', '.join([enrollment.student.name for enrollment in self.enrollments.all()])
+    withdraw_status = models.BooleanField(default=False)
+    
     def save(self,*args, **kwargs):
         if self._state.adding:
             self.availableChairs = self.courseChair
@@ -94,4 +94,3 @@ class Quota_rejected(models.Model):
 
     def __str__(self):
         return f"{self.course.courseID} was rejected {self.student.name}"
-

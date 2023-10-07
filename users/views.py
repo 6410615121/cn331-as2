@@ -2,18 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from .models import Student
-from course.models import Course, Quota_accepeted, QuotaRequest ,Quota_rejected
 # Create your views here.
 
 def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('login'))
-    Quotaacc  = Quota_accepeted.objects.filter(student=request.user.student)
-    Quotarej  = Quota_rejected.objects.filter(student=request.user.student)
-    QuotaReq =  QuotaRequest.objects.filter(student=request.user.student)
-    context = {'quotaAccepted': Quotaacc,'quotaRejected':Quotarej ,'quotaRequest':QuotaReq}
-    return render(request, ('users/index.html'),context)
+    
+    return render(request, ('users/index.html'))
 
 def login_view(request):
     if request.method == "POST":

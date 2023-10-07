@@ -31,9 +31,9 @@ def quota_request(request, courseID):
     
     # Check if a request already exists for the student and course
     #existing_request = QuotaRequest.objects.filter(course=course, student=student)
-    Quotaacc  = Quota_accepeted.objects.filter(student=request.user.student)
-    Quotarej  = Quota_rejected.objects.filter(student=request.user.student)
-    QuotaReq =  QuotaRequest.objects.filter(student=request.user.student)
+    Quotaacc  = Quota_accepeted.objects.filter(student=request.user.student,course = course)
+    Quotarej  = Quota_rejected.objects.filter(student=request.user.student,course = course)
+    QuotaReq =  QuotaRequest.objects.filter(student=request.user.student,course = course)
     if Quotaacc or  Quotarej or QuotaReq:
         # A request already exists, handle the error (e.g., display a message)
         return render(request, 'quota_request_error.html')
@@ -42,3 +42,29 @@ def quota_request(request, courseID):
    
     return render(request, 'quota_request_success.html')
 
+def quota_status(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    
+    Quotaacc  = Quota_accepeted.objects.filter(student=request.user.student)
+    Quotarej  = Quota_rejected.objects.filter(student=request.user.student)
+    QuotaReq =  QuotaRequest.objects.filter(student=request.user.student)
+    context = {'quotaAccepted': Quotaacc,'quotaRejected':Quotarej ,'quotaRequest':QuotaReq}
+    return render(request, 'quota_status.html', context)
+    
+def quota_withdraw(request, courseID):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    course = Course.objects.get(pk=courseID)
+  
+    Quotaacc  = Quota_accepeted.objects.filter(student=request.user.student,course = course)
+    Quotarej  = Quota_rejected.objects.filter(student=request.user.student,course = course)
+    QuotaReq =  QuotaRequest.objects.filter(student=request.user.student,course = course)
+    if Quotaacc :
+        Quotaacc.delete()
+    elif Quotarej:
+        Quotarej.delete()
+    elif QuotaReq:
+        QuotaReq.delete()
+    return render(request, 'quota_withdraw_success.html')
+    
