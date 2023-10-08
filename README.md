@@ -19,3 +19,6 @@ https://youtu.be/uI4y6dX-skM
 
 ลิงค์ web app บน cloud
 6410615121.pythonanywhere.com
+
+ลิงค์คลิปแสดงการใช้งานบน cloud
+https://youtu.be/MoVeQkKkDIE
