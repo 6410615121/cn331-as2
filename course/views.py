@@ -61,10 +61,13 @@ def quota_withdraw(request, courseID):
     Quotarej  = Quota_rejected.objects.filter(student=request.user.student,course = course)
     QuotaReq =  QuotaRequest.objects.filter(student=request.user.student,course = course)
     if Quotaacc :
-        Quotaacc.delete()
+        for obj in Quotaacc:
+            obj.delete()
     elif Quotarej:
-        Quotarej.delete()
+        for obj in Quotarej:
+            obj.delete()
     elif QuotaReq:
-        QuotaReq.delete()
+        for obj in QuotaReq:
+            obj.delete()
     return render(request, 'quota_withdraw_success.html')
     
