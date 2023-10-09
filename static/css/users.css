@@ -150,19 +150,19 @@
   
 }
 .search-tab input {
-  margin: 50px 25px 50px 0; /* Add some space around the input elements */
-  padding: 5px; /* Add padding to the input elements */
+  margin: 50px 25px 50px 0; 
+  padding: 5px; 
   
   
 }
 .user-style {
   background-color: white;
   border-radius: 10px;
-  padding: 20px 30px 50px; /* Adjust padding as needed */
+  padding: 20px 30px 50px; 
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  flex-direction: column; /* Stack the image and text vertically */
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column; 
 }
 
 .user-info h2 {
@@ -172,6 +172,6 @@
 }
 
 .user-style img {
-  width: 250px; /* Adjust the width as needed */
-  height: auto; /* Maintain aspect ratio */
+  width: 250px; 
+  height: auto; 
 }

@@ -39,7 +39,6 @@
 }
 
 
-/* Alternate row background color for better readability */
 .course-table tbody tr:nth-child(even) {
     background-color: #ffffff;
 }

@@ -8,17 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"  href="{% static 'css\users.css' %}">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css\stylelist.css' %}">
     <title>Register</title>
 </head>
 <body>
-    <!------ Include the above in your HEAD tag ---------->
-    
     <div id="wrapper" class="active">  
-        <!-- Sidebar -->
-                <!-- Sidebar -->
         <div id="sidebar-wrapper" >
             <ul id="sidebar_menu" class="sidebar-nav">
                <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
@@ -42,11 +36,11 @@
                         <th>Course Name</th>
                         <th>Year</th>
                         <th>Semester</th>
-                        <th>Avaible</th>
+                        <th>Available</th>
                         <th>Enrollment</th>
                     </tr>
                 </thead>
-                <tbody id="courseList">
+                <tbody id="courseListBody">
                     {% for course in Courses %}
                         <tr>
                             <td>{{ course.courseID }}</td>
@@ -72,26 +66,25 @@
                 // Get the input fields and course list
                 var idInput = document.getElementById("searchIdInput");
                 var semesterInput = document.getElementById("searchSemesterInput");
-                var courseList = document.getElementById("courseList");
-                var courses = courseList.getElementsByTagName("tr");
-        
+                var courseListBody = document.getElementById("courseListBody");
+                var courses = courseListBody.getElementsByTagName("tr");
+            
                 // Add event listeners for keyup events on the input fields
                 idInput.addEventListener("keyup", filterCourses);
                 semesterInput.addEventListener("keyup", filterCourses);
-        
+            
                 function filterCourses() {
                     var idFilter = idInput.value.toLowerCase();
                     var semesterFilter = semesterInput.value.toLowerCase();
-        
-                    for (var i = 1; i < courses.length; i++) { // Start from index 1 to skip the table header row
+            
+                    for (var i = 0; i < courses.length; i++) {
                         var course = courses[i];
                         var courseId = course.cells[0].textContent.toLowerCase();
-                        var courseName = course.cells[1].textContent.toLowerCase();
-                        var courseSemester = course.cells[2].textContent.toLowerCase();
-        
+                        var courseSemester = course.cells[3].textContent.toLowerCase();
+            
                         var idMatch = courseId.indexOf(idFilter) > -1;
                         var semesterMatch = courseSemester.indexOf(semesterFilter) > -1;
-        
+                        // find idcourse or semester
                         if ((idFilter === "" || idMatch) && (semesterFilter === "" || semesterMatch)) {
                             course.style.display = "";
                         } else {
