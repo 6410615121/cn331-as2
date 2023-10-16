@@ -26,6 +26,10 @@ class Course(models.Model):
         else:
             self.quotaRecieveing_Status = False
         super().save(*args, **kwargs)
+
+    #testing method
+    def is_chair_available(self):
+        return self.availableChairs < self.courseChair
     
     def __str__(self):
         return f"{self.courseID}: {self.courseName} "
