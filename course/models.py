@@ -29,8 +29,9 @@ class Course(models.Model):
 
     #testing method
     def is_chair_available(self):
-        return self.availableChairs < self.courseChair
+        return self.availableChairs != 0
     
+    #__str__
     def __str__(self):
         return f"{self.courseID}: {self.courseName} "
     
