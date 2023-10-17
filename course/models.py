@@ -31,6 +31,9 @@ class Course(models.Model):
     def is_chair_available(self):
         return self.availableChairs != 0
     
+    def is_quota_status_open(self):
+        return self.quotaRecieveing_Status
+    
     #__str__
     def __str__(self):
         return f"{self.courseID}: {self.courseName} "
