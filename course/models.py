@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import Student
 import uuid
-import importlib
+
 
 
 # Create your models here.
@@ -34,9 +34,12 @@ class Course(models.Model):
     def is_quota_status_open(self):
         return self.quotaRecieveing_Status
     
+    def is_withdraw_status_open(self):
+        return self.withdraw_status
+    
     #__str__
-    def __str__(self):
-        return f"{self.courseID}: {self.courseName} "
+    #def __str__(self):
+    #    return f"{self.courseID}: {self.courseName} "
     
 
 class QuotaRequest(models.Model):
@@ -45,8 +48,8 @@ class QuotaRequest(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     approved = models.BooleanField(default=False)
     
-    def __str__(self):
-        return self.student.name + ': ' + self.course.courseID
+    #def __str__(self):
+    #    return self.student.name + ': ' + self.course.courseID
     
 
 
@@ -85,20 +88,18 @@ class Quota_accepeted(models.Model):
         
         if (self.course.availableChairs > 0) and (self.course.allowQuota_whenAvailable):
             self.course.quotaRecieveing_Status = True
-        else:
-            self.course.quotaRecieveing_Status = False
         self.course.availableChairs += 1
         self.student.save()
         self.course.save()  # Save the related Course object here, not with *args, **kwargs
 
         super().delete(*args, **kwargs)
 
-    def __str__(self):
-        return f"{self.student.name} enrolled in {self.course.courseID}"
+    #def __str__(self):
+    #    return f"{self.student.name} enrolled in {self.course.courseID}"
 
 class Quota_rejected(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='rejected_enrollments')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='rejected_enrollments')
 
-    def __str__(self):
-        return f"{self.course.courseID} was rejected {self.student.name}"
+    #def __str__(self):
+    #    return f"{self.course.courseID} was rejected {self.student.name}"

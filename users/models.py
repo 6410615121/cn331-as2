@@ -7,5 +7,5 @@ class Student(models.Model):
     name = models.CharField(max_length=50)
     Enrolled_Course = models.JSONField(default=dict,blank=True)
 
-    def __str__(self):
-        return f"{self.id} : {self.name} "
+    #def __str__(self):
+    #    return f"{self.id} : {self.name} "

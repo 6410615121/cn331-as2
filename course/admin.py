@@ -16,6 +16,7 @@ class Quota_accepetedAdmin(admin.ModelAdmin):
     actions = ['withdraw',]
 
     def withdraw(self, request, queryset):
+        print("withdraw method called") # show when testing
         for obj in queryset:
             obj.delete()
         
