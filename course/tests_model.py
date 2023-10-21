@@ -55,10 +55,38 @@ class CourseTestCase(TestCase):
 
         Quota_accepeted.objects.create(course=course, student=student1)
         Quota_accepeted.objects.create(course=course, student=student2)
-        self.assertFalse(course.is_quota_status_open())
+        self.assertFalse(course.is_quota_status_open()) #full quota 
 
     def test_quota_status3(self):
         #admin close quota requesting
         """is_quota_status_open should be False"""
         course = Course.objects.get(courseID = "cn203")
         self.assertFalse(course.is_quota_status_open())
+
+    def test_withdraw_status(self):
+        # admin open withdraw status
+        """is_withdraw_status_open should be True"""
+        course = Course.objects.get(courseID = "cn203")
+        self.assertTrue(course.is_withdraw_status_open())
+
+
+    def test_chair_avaible_decrease(self):
+        #when admin accept the quota then chair_avaible should be decrease
+        user1 = User.objects.create_user(username='student1', password='123')
+        student1 = Student.objects.create(id=user1, name="name of student1")
+        course = Course.objects.get(courseID = "cn201")
+
+        Quota_accepeted.objects.create(course=course, student=student1)
+        self.assertEqual(course.availableChairs, 1) #default courseChair have 2 chair ,then it should be equal to 1
+
+    def test_chair_avaible_increase(self):
+        #when student have withdrawn the quota then chair_avaible should be increase
+        user1 = User.objects.create_user(username='student1', password='123')
+        student1 = Student.objects.create(id=user1, name="name of student1")
+        course = Course.objects.get(courseID = "cn201")
+
+        temp_quota = Quota_accepeted.objects.create(course=course, student=student1)
+        self.assertEqual(course.availableChairs, 1) #default courseChair have 2 chair ,then it should be equal to 1
+        temp_quota.delete()  # this will call delete function in class Quota_accepeted
+        self.assertEqual(course.availableChairs, 2) #default courseChair have 2 chair ,then it should be equal to 2
+        
