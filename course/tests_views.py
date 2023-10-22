@@ -16,18 +16,21 @@ class CourseViewTestCase(TestCase):
                                         courseChair=2, allowQuota_whenAvailable=True, withdraw_status=True)
         
     def test_course_list_view_status_code(self):
+        #ทดสอบว่า view course list แสดงได้ถูกต้อง
         """course list view's status code should return status code 200"""
         c = Client()
         response = c.get(reverse('course_list'))
         self.assertEqual(response.status_code, 200)
         
     def test_valid_course_detail_view_status_code(self):
+        #ทดสอบว่า view course detail แสดงได้ถูกต้อง
         """valid course detail view's status code should return status code 200"""
         c = Client()
         response = c.get(reverse('course_detail', args=["cn201"]))
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_course_detail_view_status_code(self):
+        #ทดสอบว่า view course detail แสดงได้ถูกต้อง
         """invalid course detail view's status code should return status code 404"""
         c = Client()
         response = None
@@ -43,6 +46,7 @@ class CourseViewTestCase(TestCase):
 
 
     def test_valid_course_request(self):
+        #ทดสอบว่าถ้า user ไม่ได้ login แต่ไปกดขอโควต้า จะมีการ redirect หน้า login ไป
         """valid course request view's status code should return status code 302"""
         # check if user does not login ,it will redirect to login page 
         c = Client()
@@ -51,6 +55,7 @@ class CourseViewTestCase(TestCase):
         self.assertRedirects(response, reverse('login'))
 
     def test_valid_course_request_successhtmlreponse(self):
+        #ทดสอบการขอโควต้าสำเร็จ
         """valid course request view's status code should return status code 200"""
         
         c = Client()
@@ -63,6 +68,7 @@ class CourseViewTestCase(TestCase):
         self.assertContains(response, '<h1>Success: you have requested this course\'s quota!</h1>', html=True)
 
     def test_valid_course_request_Errorhtmlreponse_1(self):
+        #ทดสอบการขอโควต้าไม่สำเร็จ(มีการขอแล้ว)
         """valid course request view's status code should return status code 200"""
         
         c = Client()
@@ -75,6 +81,7 @@ class CourseViewTestCase(TestCase):
         self.assertContains(response, '<h1>Error : you can\'t request this course\'s quota.</h1>', html=True)
 
     def test_valid_course_request_Errorhtmlreponse_2(self):
+        #ทดสอบการขอโควต้าไม่สำเร็จ(มีการ approve แล้ว)
         """valid course request view's status code should return status code 200"""
         
         c = Client()
@@ -87,6 +94,7 @@ class CourseViewTestCase(TestCase):
         self.assertContains(response, '<h1>Error : you can\'t request this course\'s quota.</h1>', html=True)
     
     def test_valid_course_request_Errorhtmlreponse_3(self):
+        #ทดสอบการขอโควต้าไม่สำเร็จ(มีการ reject แล้ว)
         """valid course request view's status code should return status code 200"""
         # Check if the login was successful
         c = Client()
@@ -101,6 +109,7 @@ class CourseViewTestCase(TestCase):
 
 
     def test_valid_quota_status_1(self):
+        #ทดสอบหน้า quota status ว่าถ้า userไม่ได้ login จะมีการ redirect กลับไปหน้า login
         """valid quota_status view's status code should return status code 302"""
         # check if user does not login ,it will redirect to login page 
         c = Client()
@@ -109,6 +118,7 @@ class CourseViewTestCase(TestCase):
         self.assertRedirects(response, reverse('login'))
 
     def test_valid_quota_status_2(self):
+        #ทดสอบหน้า quota status ว่าถ้า user login แล้วจะมีการ redirect ไปหน้า quota status
         """valid quota_status view's status code should return status code 200"""
         # Check if the login was successful, it will redirect to quota_status page
         c = Client()
@@ -118,6 +128,7 @@ class CourseViewTestCase(TestCase):
         self.assertEqual(response.status_code,200)
     
     def test_valid_quota_withdraw(self):
+        #ทดสอบว่าถ้า user ไม่ได้ login จะ redirect ไปหน้า login ถ้ากด withdraw
         """valid quota_withdraw view's status code should return status code 302"""
         # check if user does not login ,it will redirect to login page 
         c = Client()
@@ -126,6 +137,7 @@ class CourseViewTestCase(TestCase):
         self.assertRedirects(response, reverse('login'))
 
     def test_valid_withdraw_Quota_html(self):
+        #ทดสอบว่าถ้า user login แล้วจะถอนสำเร็จ
         """valid quota_withdraw view's status code should return status code 200"""
         # Check if the login was successful
         c = Client()

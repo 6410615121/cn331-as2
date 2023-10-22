@@ -11,6 +11,7 @@ class UsersViewTestCase(TestCase):
     
 
     def test_valid_index_1(self):
+        #ทดสอบว่าถ้า user ไปหน้า index แต่ยังไม่ได้ login จะมีการ redirect กลับไปหน้า login
         """valid index view's status code should return status code 302"""
         # check if user does not login ,it will redirect to login page 
         c = Client()
@@ -19,6 +20,7 @@ class UsersViewTestCase(TestCase):
         self.assertRedirects(response, reverse('login'))
 
     def test_valid_index_2(self):
+        #ทดสอบว่าถ้า user ไปหน้า index แล้ว login แล้ว จะแสดงหน้า index
         """valid index view's status code should return status code 200"""
         
         c = Client()
@@ -31,7 +33,8 @@ class UsersViewTestCase(TestCase):
 
 
     def test_valid_login(self):
-        """valid login view's status code should return status code 200"""
+        #ทดสอบว่า login ได้ ถูกต้อง แล้วจะไปหน้า index
+        """valid login view's status code should return status code 302"""
         
         c = Client()
         response = c.post(reverse('login'), {'username': 'student', 'password': '123'})
@@ -39,6 +42,7 @@ class UsersViewTestCase(TestCase):
         self.assertRedirects(response, reverse('index'))
 
     def test_invalid_login(self):
+        #ทดสอบว่า ถ้า user login ผิดพลาดจะมีการให้ login อีกครั้ง
         """invalid login view's status code should return status code 302"""
         
         c = Client()
@@ -47,6 +51,7 @@ class UsersViewTestCase(TestCase):
         # it will render login html
     
     def test_valid_logout(self):
+        #ทดสอบว่า logout ได้ 
         """valid logout view's status code should return status code 200"""
         # check if user does not login ,it will redirect to login page 
         c = Client()

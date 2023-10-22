@@ -16,11 +16,13 @@ class CourseTestCase(TestCase):
 
         
     def test_chair_available(self):
+        #ทดสอบว่าการคำนวณตัวแปรเก้าอี้นั่งที่ยังว่างทำงานถูกต้อง
         """ is_chair_available should be True """
         course = Course.objects.get(courseID = "cn201")
         self.assertTrue(course.is_chair_available())
 
     def test_chair_not_available(self):
+        #ทดสอบว่าการคำนวณตัวแปรเก้าอี้นั่งที่ยังว่างทำงานถูกต้อง
         """ is_chair_available should be False """
         course = Course.objects.get(courseID = "cn201")
 
@@ -36,12 +38,14 @@ class CourseTestCase(TestCase):
         self.assertFalse(course.is_chair_available())
 
     def test_quota_status1(self):
+        #ทดสอบว่าการทำงานของสถานะการเปิดรับโควต้าทำงานถูกต้อง
         #admin open quota requesting And chair is available
         """is_quota_status_open should be True"""
         course = Course.objects.get(courseID = "cn201")
         self.assertTrue(course.is_quota_status_open())
 
     def test_quota_status2(self):
+        #ทดสอบว่าการทำงานของสถานะการเปิดรับโควต้าทำงานถูกต้อง
         #admin open quota requesting And chair is not available
         """is_quota_status_open should be False"""
         course = Course.objects.get(courseID = "cn201")
@@ -58,12 +62,14 @@ class CourseTestCase(TestCase):
         self.assertFalse(course.is_quota_status_open()) #full quota 
 
     def test_quota_status3(self):
+        #ทดสอบว่าการทำงานของสถานะการเปิดรับโควต้าทำงานถูกต้อง
         #admin close quota requesting
         """is_quota_status_open should be False"""
         course = Course.objects.get(courseID = "cn203")
         self.assertFalse(course.is_quota_status_open())
 
     def test_withdraw_status(self):
+        #ทดสอบว่าตัวแปรสถานะการถอนถูกต้อง
         # admin open withdraw status
         """is_withdraw_status_open should be True"""
         course = Course.objects.get(courseID = "cn203")
@@ -71,6 +77,7 @@ class CourseTestCase(TestCase):
 
 
     def test_chair_avaible_decrease(self):
+        #ทดสอบว่าการคำนวณตัวแปรเก้าอี้นั่งที่ยังว่างทำงานถูกต้อง
         #when admin accept the quota then chair_avaible should be decrease
         user1 = User.objects.create_user(username='student1', password='123')
         student1 = Student.objects.create(id=user1, name="name of student1")
@@ -80,6 +87,7 @@ class CourseTestCase(TestCase):
         self.assertEqual(course.availableChairs, 1) #default courseChair have 2 chair ,then it should be equal to 1
 
     def test_chair_avaible_increase(self):
+        #ทดสอบว่าการคำนวณตัวแปรเก้าอี้นั่งที่ยังว่างทำงานถูกต้อง
         #when student have withdrawn the quota then chair_avaible should be increase
         user1 = User.objects.create_user(username='student1', password='123')
         student1 = Student.objects.create(id=user1, name="name of student1")

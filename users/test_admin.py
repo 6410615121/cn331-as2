@@ -11,6 +11,7 @@ class StudentAdminTestCase(TestCase):
         self.student = Student.objects.create(id=self.admin_user, name="name of student") 
 
     def test_student_admin_list_display(self):
+        #ทดสอบการแสดงหน้า student admin list
         c = Client()
         logged_in = c.login(username='root', password='1234')
         self.assertTrue(logged_in)

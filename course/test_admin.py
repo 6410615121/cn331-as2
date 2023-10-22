@@ -14,7 +14,10 @@ class StudentAdminTestCase(TestCase):
         self.course2 = Course.objects.create(courseID="cn202", courseName="data1", courseSemester=2, courseYear=2023,
                                         courseChair=2, allowQuota_whenAvailable=True, withdraw_status=True)
         self.qr = QuotaRequest.objects.create(course=self.course1, student=self.student)
+
+
     def test_course_admin_Course_display(self):
+        #ทดสอบหน้า admin course display 
         c = Client()
         logged_in = c.login(username='root', password='1234')
         self.assertTrue(logged_in)
@@ -26,6 +29,7 @@ class StudentAdminTestCase(TestCase):
         self.assertContains(response, 'availableChairs')
     
     def test_course_admin_QuotaRequest_display(self):
+        #ทดสอบหน้า admin quotarequest display 
         c = Client()
         logged_in = c.login(username='root', password='1234')
         self.assertTrue(logged_in)
@@ -37,6 +41,7 @@ class StudentAdminTestCase(TestCase):
         self.assertContains(response, 'requestID')
     
     def test_withdraw_accepted_quota_action(self):
+        #ทดสอบ action withdraw quota ที่ได้รับการ approve แล้ว
         # Create some QuotaRequest objects for testing
         Quota_accepeted_1 = Quota_accepeted.objects.create(course=self.course1, student=self.student)
         
@@ -56,6 +61,7 @@ class StudentAdminTestCase(TestCase):
 
 
     def test_approve_requests_action(self):
+        #ทดสอบ action การ approve quota
         # Create some QuotaRequest objects for testing
         quota_request_1 = QuotaRequest.objects.create(course=self.course1, student=self.student)
 
@@ -76,6 +82,7 @@ class StudentAdminTestCase(TestCase):
         self.assertTrue(Quota_accepeted.objects.filter(course=self.course1, student=self.student).exists())
 
     def test_reject_requests_action(self):
+        #ทดสอบ action การ reject quota
         # Create some QuotaRequest objects for testing
         quota_request_1 = QuotaRequest.objects.create(course=self.course1, student=self.student)
 
@@ -98,6 +105,7 @@ class StudentAdminTestCase(TestCase):
 
 
     def test_course_admin_Quotaaccepete_display(self):
+        #ทดสอบการแสดงหน้า course admin quota accepted display
         c = Client()
         logged_in = c.login(username='root', password='1234')
         self.assertTrue(logged_in)
@@ -109,6 +117,7 @@ class StudentAdminTestCase(TestCase):
 
 
     def test_course_admin_Quotarejected_display(self):
+        #ทดสอบการแสดงหน้า course admin quota rejected display
         c = Client()
         logged_in = c.login(username='root', password='1234')
         self.assertTrue(logged_in)
