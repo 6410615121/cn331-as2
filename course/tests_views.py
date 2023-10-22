@@ -101,7 +101,7 @@ class CourseViewTestCase(TestCase):
 
 
     def test_valid_quota_status_1(self):
-        """valid quota_request view's status code should return status code 302"""
+        """valid quota_status view's status code should return status code 302"""
         # check if user does not login ,it will redirect to login page 
         c = Client()
         response = c.get(reverse('quota_status'))
@@ -109,8 +109,8 @@ class CourseViewTestCase(TestCase):
         self.assertRedirects(response, reverse('login'))
 
     def test_valid_quota_status_2(self):
-        """valid quota_request view's status code should return status code 200"""
-        # Check if the login was successful
+        """valid quota_status view's status code should return status code 200"""
+        # Check if the login was successful, it will redirect to quota_status page
         c = Client()
         logged_in = c.login(username="student1", password="123")
         self.assertTrue(logged_in)
